@@ -1,0 +1,33 @@
+{
+  "name": "json-fake-api",
+  "version": "1.0.0",
+  "description": "json fake api server",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/golovin-mv/json-fake-api.git"
+  },
+  "author": "golovin-mv",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/golovin-mv/json-fake-api/issues"
+  },
+  "homepage": "https://github.com/golovin-mv/json-fake-api#readme",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1"
+  },
+  "dependencies": {
+    "http-proxy": "^1.16.2",
+    "install": "^0.10.1",
+    "json-schema-faker": "^0.5.0-rc6",
+    "npm": "^5.0.3"
+  }
+}
