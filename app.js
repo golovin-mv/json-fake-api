@@ -1,3 +1,4 @@
+// TODO: middlavare
 const jsf = require('json-schema-faker');
 const URL = require('url').URL;
 const data = require('./shemas');
@@ -13,7 +14,7 @@ const parseUrl = (url) => {
   }
   return parsedUrl;
 };
-
+// TODO: в роутер
 const response = (req) => {
   const parsedUrl = parseUrl(req.url);
   // FIXME: гавно
@@ -26,7 +27,7 @@ const response = (req) => {
   return jsf.resolve(shema)
     .then(res => JSON.stringify(res, null, 2));
 };
-
+// TODO: в responce
 const addHeaders = (res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');
@@ -35,13 +36,16 @@ const addHeaders = (res) => {
   return res;
 };
 
+// TODO: в responce
 const ok = (res, responseData) => {
   addHeaders(res).writeHead(200);
   return res.end(responseData);
 };
 
+// TODO: в роутер
 const isFavicon = req => req.url === '/favicon.ico';
 
+// TODO: в responce
 const notFound = (res) => {
   addHeaders(res).writeHead(404);
   return res.end('Not found');
@@ -51,7 +55,6 @@ server.start(config, (req, res) => {
   if (req.method === 'OPTIONS' || isFavicon(req)) {
     return ok(res);
   }
-
   return response(req)
     .then((json) => {
       if (!json) {
