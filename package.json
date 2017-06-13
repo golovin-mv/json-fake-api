@@ -30,6 +30,7 @@
     "install": "^0.10.1",
     "json-schema-faker": "^0.5.0-rc6",
     "npm": "^5.0.3",
+    "ramda": "^0.24.1",
     "winston": "^2.3.1"
   }
 }

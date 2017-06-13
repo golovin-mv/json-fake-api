@@ -1,3 +1,4 @@
+const R = require('ramda');
 const cliParser = require('./CLIparser');
 
 const config = {
@@ -5,8 +6,4 @@ const config = {
   proxy: null
 };
 
-// TODO: красивее
-module.exports = Object.assign({}, config, {
-  port: cliParser.port || config.port,
-  proxy: cliParser.proxy || config.proxy
-});
+module.exports = R.map(key => R.defaultTo(config[key], cliParser[key]))(R.keys(config));
