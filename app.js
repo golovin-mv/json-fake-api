@@ -1,16 +1,8 @@
-
 const jsf = require('json-schema-faker');
 const URL = require('url').URL;
 const data = require('./shemas');
 const server = require('./server');
-
-const config = {
-  port: 8080,
-  hostName: '127.0.0.0',
-};
-
-// TODO: другое имя
-const isProxy = 'http://192.168.0.242:8080';
+const config = require('./config');
 
 const parseUrl = (url) => {
   let parsedUrl = null;
@@ -55,7 +47,7 @@ const notFound = (res) => {
   return res.end('Not found');
 };
 
-server.start(config.port, isProxy, (req, res) => {
+server.start(config, (req, res) => {
   if (req.method === 'OPTIONS' || isFavicon(req)) {
     return ok(res);
   }
@@ -63,14 +55,13 @@ server.start(config.port, isProxy, (req, res) => {
   return response(req)
     .then((json) => {
       if (!json) {
-        return server.proxyReq(req, res)
-          .catch((error) => {
-            // TODO: 500
-            console.error(error);
-            return notFound(res, error);
-          });
+        if (server.isProxy()) {
+          return server.proxyReq(req, res)
+            .catch(error => notFound(res, error));
+        }
+        return notFound(res);
       }
-
       return ok(res, json);
     });
 });
+
