@@ -1,11 +1,12 @@
 // TODO: middlavare
 const jsf = require('json-schema-faker');
 const URL = require('url').URL;
-const data = require('./shemas');
-const server = require('./server');
-const config = require('./config');
 const faker = require('faker');
-const responces = require('./responces');
+
+const data = require('./lib/shemas');
+const server = require('./lib/server');
+const config = require('./lib/config');
+const { ok, notFound } = require('./lib/responces');
 
 jsf.extend('faker', () => faker);
 
@@ -36,18 +37,18 @@ const isFavicon = req => req.url === '/favicon.ico';
 
 server.start(config, (req, res) => {
   if (req.method === 'OPTIONS' || isFavicon(req)) {
-    return responces.ok(res);
+    return ok(res);
   }
   return response(req)
     .then((json) => {
       if (!json) {
         if (server.isProxy()) {
           return server.proxyReq(req, res)
-            .catch(error => responces.notFound(res, error));
+            .catch(error => notFound(res, error));
         }
-        return responces.notFound(res);
+        return notFound(res);
       }
-      return responces.ok(res, json);
+      return ok(res, json);
     });
 });
 
