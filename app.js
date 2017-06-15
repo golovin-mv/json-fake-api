@@ -4,6 +4,10 @@ const URL = require('url').URL;
 const data = require('./shemas');
 const server = require('./server');
 const config = require('./config');
+const faker = require('faker');
+const responces = require('./responces');
+
+jsf.extend('faker', () => faker);
 
 const parseUrl = (url) => {
   let parsedUrl = null;
@@ -27,44 +31,23 @@ const response = (req) => {
   return jsf.resolve(shema)
     .then(res => JSON.stringify(res, null, 2));
 };
-// TODO: в responce
-const addHeaders = (res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Request-Method', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-  return res;
-};
-
-// TODO: в responce
-const ok = (res, responseData) => {
-  addHeaders(res).writeHead(200);
-  return res.end(responseData);
-};
-
 // TODO: в роутер
 const isFavicon = req => req.url === '/favicon.ico';
 
-// TODO: в responce
-const notFound = (res) => {
-  addHeaders(res).writeHead(404);
-  return res.end('Not found');
-};
-
 server.start(config, (req, res) => {
   if (req.method === 'OPTIONS' || isFavicon(req)) {
-    return ok(res);
+    return responces.ok(res);
   }
   return response(req)
     .then((json) => {
       if (!json) {
         if (server.isProxy()) {
           return server.proxyReq(req, res)
-            .catch(error => notFound(res, error));
+            .catch(error => responces.notFound(res, error));
         }
-        return notFound(res);
+        return responces.notFound(res);
       }
-      return ok(res, json);
+      return responces.ok(res, json);
     });
 });
 

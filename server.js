@@ -8,27 +8,24 @@ const server = {
 };
 
 
-const createProxy = (proxyAddr) => {
-  return new Promise((resolve) => {
-    if (!proxyAddr) {
-      return resolve();
-    }
-    return resolve(httpProxy.createProxyServer({ target: proxyAddr }));
-  });
-};
+const createProxy = proxyAddr => new Promise((resolve) => {
+  if (!proxyAddr) {
+    return resolve();
+  }
+  return resolve(httpProxy.createProxyServer({ target: proxyAddr }));
+});
 
-const createServer = (config, clbFn) => {
-  return new Promise((resolve, reject) => {
-    try {
-      http.createServer(clbFn).listen(config.port, () => {
-        server.isRunning = true;
-      }).listen(config.port);
-      return resolve();
-    } catch (err) {
-      return reject(err);
-    }
-  });
-};
+
+const createServer = (config, clbFn) => new Promise((resolve, reject) => {
+  try {
+    http.createServer(clbFn).listen(config.port, () => {
+      server.isRunning = true;
+    }).listen(config.port);
+    return resolve();
+  } catch (err) {
+    return reject(err);
+  }
+});
 
 const start = (config, clbFn) => {
   createServer(config, clbFn)
@@ -37,6 +34,7 @@ const start = (config, clbFn) => {
     .then((res) => {
       if (res) {
         server.proxy = res;
+        server.proxyTarget = config.proxy;
         logger.info(`Server proxy to ${config.proxy}`);
       }
     })
