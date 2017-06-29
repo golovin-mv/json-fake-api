@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/golovin-mv/json-fake-api#readme",
   "scripts": {
-    "test": "export NODE_ENV=test && ./node_modules/.bin/_mocha **/*.spec.js",
+    "test": "mocha",
     "watch": " watch \"npm test\" ./"
   },
   "devDependencies": {
