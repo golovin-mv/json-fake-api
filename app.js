@@ -1,6 +1,6 @@
 // TODO: middlavare
 const jsf = require('json-schema-faker');
-const URL = require('url').URL;
+
 const faker = require('faker');
 
 const data = require('./lib/shemas');
@@ -10,15 +10,6 @@ const { ok, notFound } = require('./lib/responces');
 
 jsf.extend('faker', () => faker);
 
-const parseUrl = (url) => {
-  let parsedUrl = null;
-  try {
-    parsedUrl = new URL(url);
-  } catch (err) {
-    parsedUrl = url;
-  }
-  return parsedUrl;
-};
 // TODO: в роутер
 const response = (req) => {
   const parsedUrl = parseUrl(req.url);
