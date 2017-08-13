@@ -12,9 +12,9 @@ jsf.extend('faker', () => faker);
 
 // TODO: в роутер
 const response = (req) => {
-  const parsedUrl = parseUrl(req.url);
+  const parsedUrl = data.parseUrl(req.url);
   // FIXME: гавно
-  const shema = data.filter(el => parsedUrl.indexOf(el.path) !== -1)[0];
+  const shema = data.getAllShemas().filter(el => parsedUrl.indexOf(el.path) !== -1)[0];
 
   if (!shema) {
     return Promise.resolve(null);
